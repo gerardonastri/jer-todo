@@ -1,0 +1,52 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+</head>
+<body>  
+    <div class="container">
+        <div class="wrapper">
+            <div class="up">
+                <h2>Hello {{request.user}}</h2>
+                <h4>You have {{count}} incomplete task</h4>
+                <a href="{% url 'logout' %}" style="text-decoration: none; color: inherit;">
+                    <span class="logout">Logout</span>
+                </a>
+            </div>
+            <div class="searchBar">
+                <form class="input" method="GET" style="margin-top: 0;">
+                    <input type='text' name='search-area' placeholder="Search your task" value="{{search_input}}">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+               <a href='{% url "create" %}' style="text-decoration:none; color: inherit;">
+                <i class="fa-solid fa-plus"></i>
+               </a>
+            </div>
+            <div class="tasks-container">
+                {% for task in tasks %}
+                <div class="task">
+                    <div class="left">
+                        {% if task.complete %}
+                            <button class="completed"></button>
+                        {% else %}
+                            <button class=""></button>
+                        {% endif %}
+                        <a style="text-decoration: none; color: inherit;" href="{% url 'task' task.id %}">
+                            <span>{{task.title}}</span>
+                        </a>
+                    </div>
+                    <a style="text-decoration: none; color: inherit;" href="{% url 'delete' task.id %}">
+                        <i class="fa-solid fa-x"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
